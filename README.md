@@ -35,12 +35,14 @@ The only part not taken from upstream is the instruction given to the model unde
 
 ## Results
 
-This implementation reproduces the official leaderboard scores well. Full runs on all 911 items (commit `58c335b`, judge `google/gemini-3.8-flash`, November 2026), both within about one standard error of the leaderboard:
+This implementation reproduces the official leaderboard scores well. These are full runs on all 911 items (commit `58c335b`, judge `google/gemini-3.8-flash`, November 2026), and both leaderboard scores fall inside our 95% confidence intervals:
 
-| Model | This implementation (accuracy ± stderr) | [Leaderboard](https://last-translation-benchmark.vilda.net/leaderboard-results) (Blind, LTBv1-eval) |
+| Model | This implementation: accuracy [95% CI] | [Leaderboard](https://last-translation-benchmark.vilda.net/leaderboard-results) (Blind, LTBv1-eval) |
 |---|---|---|
-| Gemma 4 31B (`openrouter/google/gemma-4-31b-it`) | 0.071 ± 0.009 | 0.071 |
-| DeepSeek V4.1 Flash (`openrouter/deepseek/deepseek-v4.1-flash`) | 0.127 ± 0.011 | 0.138 |
+| Gemma 4 31B (`openrouter/google/gemma-4-31b-it`) | 0.071 [0.055, 0.088] | 0.071 |
+| DeepSeek V4.1 Flash (`openrouter/deepseek/deepseek-v4.1-flash`) | 0.127 [0.106, 0.149] | 0.138 |
+
+The intervals are percentile bootstrap intervals over items: the 911 per-item scores (0 or 1) of each run were resampled with replacement 10,000 times (seed 0), and the 2.5th and 97.5th percentiles of the resampled accuracies are reported. They capture how much the score depends on which items happen to be in the set, from a single run. They do not capture run-to-run noise from the model's or judge's sampling, which would need repeated runs (`--epochs`).
 
 Each run cost about $2 at OpenRouter and Gemini API list prices, mostly for the judge.
 
