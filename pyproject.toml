@@ -1,0 +1,45 @@
+[project]
+name = "last-translation-benchmark-inspect"
+version = "1.0.0"
+description = "Last Translation Benchmark (LTBv1-eval) as an Inspect AI eval"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+    "inspect_ai>=0.3.258",
+    "huggingface_hub>=0.30",
+    # SDK for the default judge, google/gemini-3.8-flash
+    "google-genai",
+]
+
+[project.urls]
+"Source Code" = "https://github.com/robert-ellamind/last-translation-benchmark-inspect"
+"Upstream benchmark" = "https://github.com/zouharvi/last-translation-benchmark"
+
+[project.entry-points.inspect_ai]
+last_translation_benchmark = "last_translation_benchmark"
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-inspect-evals==0.1.0",
+    "ruff",
+]
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.inspect-evals-lint]
+preset = "single-eval"
+# metadata lives in the inspect_evals register
+eval-yaml-required = false
