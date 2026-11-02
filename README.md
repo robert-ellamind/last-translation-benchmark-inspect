@@ -33,6 +33,17 @@ This mirrors `scripts/41-score_leaderboard.py` in [zouharvi/last-translation-ben
 
 The only part not taken from upstream is the instruction given to the model under test (`TRANSLATE_PROMPT`). The leaderboard scores submitted translations and defines no prompt, so this one is kept minimal and neutral.
 
+## Results
+
+This implementation reproduces the official leaderboard scores well. Full runs on all 911 items (commit `58c335b`, judge `google/gemini-3.8-flash`, November 2026), both within about one standard error of the leaderboard:
+
+| Model | This implementation (accuracy ± stderr) | [Leaderboard](https://last-translation-benchmark.vilda.net/leaderboard-results) (Blind, LTBv1-eval) |
+|---|---|---|
+| Gemma 4 31B (`openrouter/google/gemma-4-31b-it`) | 0.071 ± 0.009 | 0.071 |
+| DeepSeek V4.1 Flash (`openrouter/deepseek/deepseek-v4.1-flash`) | 0.127 ± 0.011 | 0.138 |
+
+Each run cost about $2 at OpenRouter and Gemini API list prices, mostly for the judge.
+
 ## Data
 
 The task downloads `data/v1.json` from the official Hugging Face dataset [`zouhar/last-translation-benchmark`](https://huggingface.co/datasets/zouhar/last-translation-benchmark) (about 90 MB, CC BY 4.0), pinned to revision `a483825ddbe2d7756f5bdfb1e4f611bee9026c4c`, and keeps the items tagged `LTBv1-eval`.
